@@ -1,0 +1,84 @@
+from tabulate import tabulate
+
+#menampilkan daftar barang di toko
+print("Selamat datang di Andi Store!")
+print("----------Daftar Barang----------")
+print(tabulate([["A1", "TEPUNG", 5000],
+               ["A2", "MINYAK", 30000],
+               ["A3", "GULA", 12000],
+               ["B1", "SABUN", 6000],
+               ["B2", "SHAMPOO", 14000],
+               ["B3", "PASTA GIGI", 8000],
+               ["C1", "INDOMIE", 4000],
+               ["C2", "SEREAL", 14000],
+               ["C1", "BIHUN", 6000],
+               ], headers=['KODE BARANG', 'ITEM', 'HARGA'], tablefmt='orgtbl'))
+
+
+def main():
+#fungsi untuk menampilkan list barang
+    items = {
+        'A1': {'name': 'TEPUNG', 'price': 5000},
+        'A2': {'name': 'MINYAK', 'price': 30000},
+        'A3': {'name': 'GULA', 'price': 12000},
+        'B1': {'name': 'SABUN', 'price': 6000},
+        'B2': {'name': 'SHAMPOO', 'price': 14000},
+        'B3': {'name': 'PASTA GIGI', 'price': 8000},
+        'C1': {'name': 'INDOMIE', 'price': 4000},
+        'C2': {'name': 'SEREAL', 'price': 14000},
+        'C3': {'name': 'BIHUN', 'price': 6000}
+    }
+     
+    grocery_list = []
+    total = 0
+
+    while True:
+    #Loop untuk customer input kode barang dan jumlah barang
+        code = input("Masukkan kode barang (ketik 'done' jika sudah, ketik 'cancel' untuk membatalkan): ")
+        if code == 'done':
+            break
+
+        if code == 'cancel':
+            print("Transaksi dibatalkan.")
+            return
+
+        if code not in items:
+            print("Error: Kode barang salah.")
+            continue
+
+        item = items[code]
+        quantity = int(input("Masukkan jumlah: "))
+        grocery_list.append({'name': item['name'], 'quantity': quantity, 'price': item['price']})
+        #Penggabungan data yg diinput customer
+
+        total += quantity * item['price']
+        #Kalkulasi untuk total price sebelum diskon
+
+    if not grocery_list:
+        print("Transaksi dibatalkan.")
+        return
+
+    print("\nReceipt:")
+    for item in grocery_list:
+    #Branching untuk print detail transaksi
+        print("%d %s @ Rp%.2f = Rp%.2f" % (item['quantity'], item['name'], item['price'], item['quantity'] * item['price']))
+    print("Subtotal: Rp%.2f" % total)
+
+    discount = 0
+    #kalkulasi untuk harga diskon
+
+    if total > 500000:
+        discount = total * 0.1
+    elif total > 300000:
+        discount = total * 0.08
+    elif total > 200000:
+        discount = total * 0.05
+    print("Discount: Rp%.2f" % discount)
+
+    total = total - discount
+    #kalkulasi total belanja dikurang diskon
+
+    print("Total: Rp%.2f" % total)
+
+if __name__ == '__main__':
+    main()
